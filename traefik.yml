@@ -51,5 +51,5 @@ certificatesResolvers:
       httpChallenge:
         entryPoint: web
       # Production vs staging, starting as staging for now
-      # caServer: https://acme-v02.api.letsencrypt.org/directory
-      caServer: https://acme-staging-v02.api.letsencrypt.org/directory
+      caServer: https://acme-v02.api.letsencrypt.org/directory
+      # caServer: https://acme-staging-v02.api.letsencrypt.org/directory
