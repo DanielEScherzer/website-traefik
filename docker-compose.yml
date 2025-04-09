@@ -1,0 +1,20 @@
+services:
+  traefik:
+    image: traefik:v3.3.5
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 443:443
+      # - 8080:8080
+    volumes:
+      - ./letsencrypt:/letsencrypt
+      - "./traefik.yml:/etc/traefik/traefik.yml:ro"
+      - ./logs:/var/log/traefik
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    networks:
+      - my-traefik-net
+
+networks:
+  my-traefik-net:
+    name: my-traefik-net
+    driver: bridge

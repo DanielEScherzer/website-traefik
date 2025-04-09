@@ -1,0 +1,55 @@
+entryPoints:
+  # http
+  web:
+    address: ":80"
+    # Redirect to HTTPS
+    http:
+      redirections:
+        entryPoint:
+          # Referenced by name
+          to: websecure
+          # New scheme
+          scheme: https
+          # Permanent redirect
+          permanent: true
+
+  # https
+  websecure:
+    address: ":443"
+
+# api:
+#   insecure: true
+#   dashboard: true
+
+providers:
+  docker:
+    # Make sure exposure is intentional
+    exposedByDefault: false
+    # 503 instead of 404
+    allowEmptyServices: true
+    # Network that services should be on to use traefik
+    network: my-traefik-net
+
+log:
+  # Mounted file
+  filePath: "/var/log/traefik/service.log"
+  # Increased info
+  level: INFO
+
+accesslog:
+  # Mounted file
+  filePath: "/var/log/traefik/access.log"
+
+certificatesResolvers:
+  letsencrypt:
+    acme:
+      # Use my email
+      email: daniel.e.scherzer@gmail.com
+      # Stored in mounted file
+      storage: /letsencrypt/acme.json
+      # From the docs, not quite sure what this is
+      httpChallenge:
+        entryPoint: web
+      # Production vs staging, starting as staging for now
+      # caServer: https://acme-v02.api.letsencrypt.org/directory
+      caServer: https://acme-staging-v02.api.letsencrypt.org/directory
